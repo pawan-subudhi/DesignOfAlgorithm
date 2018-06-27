@@ -1,0 +1,66 @@
+//enter the number of nodes present in the graph ,then enter the edge (by giving corresponding node numbers) 
+//the starting index of node will be from 0
+#include<stdio.h>
+#include<stdlib.h>
+void DFS(int v,int n,int *visited,int *graph)
+{
+		int i;
+		visited[v]=1;
+        printf("%d ",v);        
+        for(i=0; i<n; i++)
+        {
+            if(*(graph+v*n+i)== 1 && visited[i] == 0)
+                DFS(i,n,visited,graph);
+           }
+        }
+void main()
+{
+	int *visited,*graph,v,i,j,c1,c2,max,vertex;
+	printf("enter the number of vertices present in graph:: ");
+	scanf("%d",&v);
+	visited=(int*)malloc(v*sizeof(int));
+	graph=(int*)malloc(v*v*sizeof(int));
+	for(i=0;i<v;i++)
+			visited[i]=0;
+	max=(v*(v-1))/2;
+
+	//taking graph input
+	for(i=0;i<max;i++)
+	{
+		printf("enter the edge conncetion by entering node numbers and press -1 -1 if completed:: ");
+		scanf("%d%d",&c1,&c2);
+		 if(c1==-1&&c2==-1)
+			break;
+		if(c1<0||c2<0||c1>v||c2>v)
+			printf("invalid edge!!\n");
+		else
+			{
+				*(graph + (c1)*v+(c2))=1;
+				*(graph + (c2)*v+(c1))=1;
+			}
+	}
+	for(i=0;i<v;i++)
+	{
+		for(j=0;j<v;j++)
+		{
+			if(*(graph + i*v+j)!=1)
+				*(graph + i*v+j)=0;
+		}
+	}
+	
+	
+	//printing the graph as 2d array 
+	for(i=0;i<v;i++)
+	{
+		for(j=0;j<v;j++)
+		{
+			printf("%d ",*(graph + i*v+j));
+		}
+	printf("\n");
+	}
+	
+	//performing depth first search
+	printf("enter the source node:: ");
+	scanf("%d",&vertex);
+	DFS(vertex,v,visited,graph);
+}
