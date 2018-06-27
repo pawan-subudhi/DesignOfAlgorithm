@@ -1,5 +1,5 @@
 //enter the number of elements u want to sort and the program will randomly generate that much number of elements onto a file then it will be copied to an array and 
-//then sorting will be performed on the array #include<stdio.h>
+//then sorting will be performed on the array 
 #include<stdio.h>
 #include<time.h>
 #include<stdlib.h>
