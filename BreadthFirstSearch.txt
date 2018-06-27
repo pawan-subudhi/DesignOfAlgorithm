@@ -1,0 +1,109 @@
+//enter the number of nodes present in the graph ,then enter the edge (by giving corresponding node numbers) 
+//the starting index of node will be from 0
+#include<stdio.h>
+#include<stdlib.h>
+#define MAX 100  //max size of queue
+int queue[MAX], front = -1,rear = -1;
+void insert_queue(int vertex)
+{
+    if(rear == MAX-1)
+        printf("Queue Overflow\n");
+    else
+    {
+        if(front == -1) 
+            front = 0;
+        rear = rear+1;
+        queue[rear] = vertex ;
+    }
+}
+ 
+int isEmpty_queue()
+{
+    if(front == -1 || front > rear)
+        return 1;
+    else
+        return 0;
+}
+ 
+int delete_queue()
+{
+    int delete_item;
+    if(front == -1 || front > rear)
+    {
+        printf("Queue Underflow\n");
+        exit(1);
+    }
+    
+    delete_item = queue[front];
+    front = front+1;
+    return delete_item;
+}
+void BFS(int v,int n,int *visited,int *graph)
+{
+	 int i;
+    insert_queue(v);
+	visited[v]=1;
+	while(!isEmpty_queue())
+    {
+        v = delete_queue( );
+        printf("%d ",v);        
+        for(i=0; i<n; i++)
+        {
+            if(*(graph+v*n+i)== 1 && visited[i] == 0) 
+            {
+                insert_queue(i);
+                visited[i]=1;
+            }
+        }
+    }
+}
+void main()
+{
+	int *visited,*graph,v,i,j,c1,c2,max,vertex;
+	printf("enter the number of vertices present in graph:: ");
+	scanf("%d",&v);
+	visited=(int*)malloc(v*sizeof(int));
+	graph=(int*)malloc(v*v*sizeof(int));
+	for(i=0;i<v;i++)
+		visited[i]=0;
+	max=(v*(v-1))/2;
+
+	//taking graph input
+	for(i=0;i<max;i++)
+	{
+		printf("enter the edge conncetion by entering node numbers and press -1 -1 if completed:: ");
+		scanf("%d%d",&c1,&c2);
+		 if(c1==-1&&c2==-1)
+			break;
+		if(c1<0||c2<0||c1>v||c2>v)
+			printf("invalid edge!!\n");
+		else
+			{
+				*(graph + (c1)*v+(c2))=1;
+				*(graph + (c2)*v+(c1))=1;
+			}
+	}
+	for(i=0;i<v;i++)
+	{
+		for(j=0;j<v;j++)
+		{
+			if(*(graph + i*v+j)!=1)
+				*(graph + i*v+j)=0;
+		}
+	}
+
+	//printing the graph as 2d array 
+	for(i=0;i<v;i++)
+	{
+		for(j=0;j<v;j++)
+		{
+			printf("%d ",*(graph + i*v+j));
+		}
+	printf("\n");
+	}
+	
+	//performing breadth first search
+	printf("enter the source node:: ");
+	scanf("%d",&vertex);
+	BFS(vertex,v,visited,graph);
+}
