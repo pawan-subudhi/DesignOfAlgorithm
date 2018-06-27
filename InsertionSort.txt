@@ -3,30 +3,22 @@
 #include<stdio.h>
 #include<time.h>
 #include<stdlib.h>
-void swap(int *a, int *b)
+void insertionSort(int arr[], int n)
 {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
+   int i, key, j;
+   for (i = 1; i < n; i++)
+   {
+       key = arr[i];
+       j = i-1;
+       while (j >= 0 && arr[j] > key)
+       {
+           arr[j+1] = arr[j];
+           j = j-1;
+       }
+       arr[j+1] = key;
+   }
 }
- void bubbleSort(int arr[],int n)
-{
-	int swapped,i,j;
-	for(i=0;i<n;i++)
-	{
-		swapped=0;
-		for(j=0;j<n-i-1;j++)
-		{
-			if(arr[j]>arr[j+1])
-			{
-				swap(&arr[j],&arr[j+1]);
-				swapped=1;
-			}			
-		}
-		if(swapped==0)
-			break;
-	}	
-}
+ 
 void printArray(int arr[], int size)
 {
     int i;
@@ -50,9 +42,9 @@ int main()
 	for(i=0;i<max;i++)
 		fprintf(fp,"%d\t",rand()%max);
 	fclose(fp);
-
+	
 	//copying the contents of file onto array
-	arr=(int*)malloc(max*sizeof(int));
+	arr=(int*)malloc(n*sizeof(int));
 	i=0;
 	fp=fopen("sortingdata.txt","r");
 	while(fscanf(fp,"%d",&temp)!=EOF)
@@ -63,15 +55,15 @@ int main()
 
 	//performing sorting on array
 	start=clock();
-        bubbleSort(arr, max);
+        insertionSort(arr, max);
 	end=clock();
 
 	//printing the sorted array
         printf("Sorted array: \n");
         printArray(arr, max);
-	
+
 	//calculating the cpu time for the aorting
-	cpu_time_speed=(double)(end-start)/CLOCKS_PER_SEC;
-	printf("the cpu time to perform sorting is:: %lf", cpu_time_speed);
+	 cpu_time_speed=(double)(end-start)/CLOCKS_PER_SEC;
+	 printf("the cpu time to perform sorting is:: %lf", cpu_time_speed);
     return 0;
 }
