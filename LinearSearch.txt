@@ -1,0 +1,41 @@
+//enter the count of elements u want to enter and the elements then enter the element u want to search for if element found will return the index else return not found
+#include<stdio.h>
+#include<time.h>
+#include<stdlib.h>
+int linearSearch(int arr[], int n, int x)
+{
+    int i;
+    for (i = 0; i < n; i++)
+        if (arr[i] == x)
+         return i;
+    return -1;
+}
+
+int main()
+{
+	int i,max,ele,loc;
+	clock_t start,end;
+	double cpu_time_speed;
+	int *arr;
+	printf("enter the number of elements :: ");
+	scanf("%d",&max);
+	arr = (int*)malloc(max * sizeof(int));
+	
+	//entering the elements into array
+	printf("enter the elements:: ");
+	for(i=0 ; i<max ;i++)
+		scanf("%d", &arr[i]);
+
+	printf("enter the element u want to search:: ");
+	scanf("%d",&ele);
+	//performing search on array
+	start=clock();
+       loc =  linearSearch(arr, max ,ele);
+	end=clock();
+	
+	(loc == -1)? printf("Element is not present in array\n")  : printf("Element is present at index %d\n",loc);
+	//calculating the cpu time for the aorting
+	cpu_time_speed=(double)(end-start)/CLOCKS_PER_SEC;
+	printf("the cpu time to perform search is:: %lf", cpu_time_speed);
+    return 0;
+}
